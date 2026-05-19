@@ -1,12 +1,13 @@
 {% macro generate_schema_name(custom_schema_name, node) -%}
 
-    {%- set default_schema = target.schema -%}
-    {%- if custom_schema_name is none -%}
+    {%- if target.name == 'dev' -%}
+        {#- DEV: cała praca developera w jego osobistej schemie -#}
+        DBT_DEV_{{ var('dev_user') | trim }}
 
-        {{ default_schema }}
+    {%- elif custom_schema_name is none -%}
+        {{ target.schema }}
 
     {%- else -%}
-
         {{ custom_schema_name | trim }}
 
     {%- endif -%}
